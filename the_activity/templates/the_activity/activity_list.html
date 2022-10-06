@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load absolute_url %}
+{% block head_title %}{% trans "User activities" %}{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid">
+    <!-- LOGIN -->
+    <div class="row mt-2">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <Strong>{% trans "User activities" %}</Strong>
+                        </div>
+                        <div class="col-md-4">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <table class="table table-responsive-sm table-hover table-outline mb-0 w-100 d-block d-md-table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>{% trans "Time" %}</th>
+                            <th>{% trans "Activ" %}ity</th>
+                            <th>{% trans "IP" %}</th>
+                            <th>{% trans "System" %}</th>
+                            <th>{% trans "Impacted Entity" %}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for activity in activities %}
+                        <tr>
+                            <td> {{activity.action_time}}</td>
+                            <td> {{activity.change_message}}</td>
+                            <td> {{activity.ip_address}} </td>  
+                            <td> {{activity.user_agent|wordwrap:30|linebreaksbr}} </td>
+                            <td>{% absolute_url activity.target|default_if_none:"" %}  </td>   
+
+
+                        </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5" class = "text-center">{% trans 'No Record Found.' %}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+
+                    {% include "pagination.html" with paginator=activities %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
