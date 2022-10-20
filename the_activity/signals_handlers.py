@@ -120,25 +120,25 @@ def login_logger(request, user, **kwargs):
 
 
 @receiver(password_changed)
-def password_changed(request, user, **kwargs):
+def log_password_changed(request, user, **kwargs):
     capture_user_activity_logger(request=request, message="Password Changed")
 
 
 @receiver(password_reset)
-def password_reset(request, user, **kwargs):
+def log_password_reset(request, user, **kwargs):
     capture_user_activity_logger(request=request, message="Password Reset")
 
 
 @receiver(email_confirmed)
-def email_confirmed(request, email_address, **kwargs):
+def log_email_confirmed(request, email_address, **kwargs):
     capture_user_activity_logger(request=request, message="Email Confirmed")
 
 
 @receiver(email_confirmation_sent)
-def email_confirmation_sent(request, confirmation,signup, **kwargs):
+def log_email_confirmation_sent(request, confirmation,signup, **kwargs):
     capture_user_activity_logger(request=request, message="Email Confirmation Sent")
 
 
 @receiver(email_changed)
-def email_changed(request, user,from_email_address,to_email_address, **kwargs):
+def log_email_changed(request, user,from_email_address,to_email_address, **kwargs):
     capture_user_activity_logger(request=request, message="Email Changed")

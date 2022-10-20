@@ -5,7 +5,7 @@ This app can be installed and used in your django project by:
 
 .. code-block:: bash
 
-    $ pip install the_activity
+    $ pipenv install git+https://github.com/zerobit-tech/the_activity@main#egg=the_activity
 
 
 Edit your `settings.py` file to include `'the_activity'` in the `INSTALLED_APPS`
