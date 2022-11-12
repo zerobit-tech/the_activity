@@ -13,6 +13,7 @@ from the_system.services import registered_services
 
 from .models import UserActivity
 from .agents import UserActivityData,user_activity_topic,commit_user_activity   
+from asgiref.sync import async_to_sync,sync_to_async
 
 from .signals import capture_user_activity
 import logging
@@ -90,7 +91,7 @@ def capture_user_activity_logger(request: Any = None, user_to_use: Model = None,
     faust_app = registered_services.get("faust_app",None)
     if faust_app:
         capture_user_activity = faust_app.topic(str(user_activity_topic), value_type=UserActivityData)
-        capture_user_activity.send_soon(value=user_activit_data)
+        async_to_sync(capture_user_activity.send)(value=user_activit_data)
     else:
         commit_user_activity(user_activit_data)
 
