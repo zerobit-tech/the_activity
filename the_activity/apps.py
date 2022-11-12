@@ -6,7 +6,7 @@ class TheActivityConfig(AppConfig):
     name = 'the_activity'
     def ready(self):
         # import the_users.signals
+        import the_activity.agents
         from . import signals
 
         from . import signals_handlers
-        import the_activity.agents
