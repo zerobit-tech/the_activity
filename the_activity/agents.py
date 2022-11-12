@@ -21,6 +21,17 @@ import logging
 logger = logging.getLogger('ilogger')
 import faust
 
+
+def commit_user_activity(user_activity_data):
+    user_activity =UserActivity.objects.create(user_id=user_activity_data.user_id,
+                                target_id=user_activity_data.target_id,
+                                target_ct_id = user_activity_data.target_ct_id,
+                                change_message=user_activity_data.message,
+                                ip_address=user_activity_data.ip_address,
+                                user_agent=user_activity_data.user_agent,
+                                path=user_activity_data.path
+                                )
+
 class UserActivityData(faust.Record, serializer='json'):
     user_id: int
     message:str
@@ -45,14 +56,4 @@ if faust_app:
     async def capture_user_activity_agent(stream):
         async for event in stream:
             print("test_message_confirmation >>>>>>>>>>>>>>>>>>>>" ,event)
-
-
-
-            user_activity = await sync_to_async(UserActivity.objects.create)(user_id=event.user_id,
-                                        target_id=event.target_id,
-                                        target_ct_id = event.target_ct_id,
-                                        change_message=event.message,
-                                        ip_address=event.ip_address,
-                                        user_agent=event.user_agent,
-                                        path=event.path
-                                        )
+            user_activity = await async_to_sync(commit_user_activity)(event)
