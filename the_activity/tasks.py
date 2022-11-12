@@ -26,6 +26,7 @@ def async_capture_user_activity_logger(  user_id: Model = None, ip_address=None,
     return False
 
 celery_app = registered_services.get("celery_app",None)
+faust_app = registered_services.get("faust_app",None)
 
 
 if celery_app:

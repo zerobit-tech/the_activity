@@ -14,6 +14,7 @@ except:
 requirements = [
     'the_user @ git+https://github.com/zerobit-tech/the_user@main#egg=the_user',
     'the_system @ git+https://github.com/zerobit-tech/the_system@main#egg=the_system',
+    'faust~=1.10.4',
 
 ]
 

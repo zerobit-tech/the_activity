@@ -9,3 +9,4 @@ class TheActivityConfig(AppConfig):
         from . import signals
 
         from . import signals_handlers
+        import the_activity.agents
