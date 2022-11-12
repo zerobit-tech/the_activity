@@ -47,7 +47,7 @@ app_name = _get_setting("APP_NAME","the_activity")
 
 faust_app = registered_services.get("faust_app",None)
 
-user_activity_topic = f"{app_name.lower().replace(' ', '_')}_user_activity_topic"
+user_activity_topic = f"{app_name.lower().replace(' ', '_')}_user_activity"
 
 if faust_app:
     capture_user_activity = faust_app.topic(str(user_activity_topic), value_type=UserActivityData)
