@@ -56,4 +56,4 @@ if faust_app:
     async def capture_user_activity_agent(stream):
         async for event in stream:
             print("test_message_confirmation >>>>>>>>>>>>>>>>>>>>" ,event)
-            user_activity = await async_to_sync(commit_user_activity)(event)
+            user_activity = await  commit_user_activity(event)
