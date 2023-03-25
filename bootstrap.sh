@@ -15,4 +15,7 @@ source venv/bin/activate
 cd sample_project/
 python manage.py makemigrations
 python manage.py migrate
+git add .
+git commit -m "fix"
+git push
 python manage.py runserver 9022

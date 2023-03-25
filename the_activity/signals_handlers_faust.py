@@ -8,10 +8,12 @@ from django.contrib.contenttypes.models import ContentType
 
 from dataclasses import dataclass
 from typing import Any
-from .tasks import async_capture_user_activity_logger
 from django.db.models import Model
+from the_system.services import registered_services
 
 from .models import UserActivity
+from .agents import UserActivityData,user_activity_topic,commit_user_activity   
+from asgiref.sync import async_to_sync,sync_to_async
 
 from .signals import capture_user_activity
 import logging
@@ -79,14 +81,22 @@ def capture_user_activity_logger(request: Any = None, user_to_use: Model = None,
          "message": message
     }
 
-    final_kwargs = {**kwargs_local, **kwargs}
 
-    #print(" final_kwargs " , final_kwargs)
-    try:
-        async_capture_user_activity_logger.apply_async(kwargs= kwargs_local)
-    except:
-        async_capture_user_activity_logger(**kwargs_local)
+
+    user_activit_data = UserActivityData(**kwargs_local)
+
+  
+
+    #async_to_sync(capture_user_activity_agent.send)(kwargs_local)
+    faust_app = registered_services.get("faust_app",None)
+    if faust_app:
+        capture_user_activity = faust_app.topic(str(user_activity_topic), value_type=UserActivityData)
+        async_to_sync(capture_user_activity.send)(value=user_activit_data)
+    else:
+        commit_user_activity(user_activit_data)
+
     #print(" sent async_capture_user_activity_logger ----------- ")
+
 
 
 '''
